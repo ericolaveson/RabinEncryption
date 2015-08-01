@@ -106,47 +106,47 @@ public class RabinCrypto {
 	
 	public static BigIntPair euclidX(BigInt first, BigInt second) {
 		int sign = 1;
-    	BigInt[] x  = new BigInt[2];
-    	BigInt[] y  = new BigInt[2];
-    	BigInt a = first;
-    	BigInt b = second;
-    	BigInt q;
-    	BigInt r;
-    	BigInt xx;
-    	BigInt yy;
-    	BigIntPair pair;
-    	
-    	// INITIALIZE - coefficients
-    	x[0] = new BigInt(1);
-    	x[1] = new BigInt(0);
-    	y[0] = new BigInt(0);
-    	y[1] = new BigInt(1);
-    	
-    	while(!b.equals(0)) {
-    		
-    		r = a.mod(b);
-    		q = a.divide(b);
-    		a = new BigInt(b);
-    		b = new BigInt(r);
-    		
-    		xx = new BigInt(x[1]);
-    		yy = new BigInt(y[1]);
-    		
-    		x[1] = (q.multiply(x[1])).add(x[0]);
-    		y[1] = (q.multiply(y[1])).add(y[0]);
-    		
-    		x[0] = new BigInt(xx);
-    		y[0] = new BigInt(yy);
-    		
-    		sign = -sign;
-    	}
-    	
-    	x[0] = x[0].multiply(sign);
-    	y[0] = y[0].multiply(-sign);
-    	
-    	pair = new BigIntPair(x[0],y[0]);
-    	
-    	return pair;
+		BigInt[] x  = new BigInt[2];
+		BigInt[] y  = new BigInt[2];
+		BigInt a = first;
+		BigInt b = second;
+		BigInt q;
+		BigInt r;
+		BigInt xx;
+		BigInt yy;
+		BigIntPair pair;
+		
+		// INITIALIZE - coefficients
+		x[0] = new BigInt(1);
+		x[1] = new BigInt(0);
+		y[0] = new BigInt(0);
+		y[1] = new BigInt(1);
+		
+		while(!b.equals(0)) {
+			
+			r = a.mod(b);
+			q = a.divide(b);
+			a = new BigInt(b);
+			b = new BigInt(r);
+			
+			xx = new BigInt(x[1]);
+			yy = new BigInt(y[1]);
+			
+			x[1] = (q.multiply(x[1])).add(x[0]);
+			y[1] = (q.multiply(y[1])).add(y[0]);
+			
+			x[0] = new BigInt(xx);
+			y[0] = new BigInt(yy);
+			
+			sign = -sign;
+		}
+		
+		x[0] = x[0].multiply(sign);
+		y[0] = y[0].multiply(-sign);
+		
+		pair = new BigIntPair(x[0],y[0]);
+		
+		return pair;
 	}
 	
 	public static void main(String[] args) {
