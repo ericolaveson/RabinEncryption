@@ -1,11 +1,35 @@
+/*******************************************************************************
+ * PROGRAMMER : Eric Olaveson
+ * DATE       : August 1, 2015
+ * FILE       : RabinCrypto.java
+ ******************************************************************************/
 import java.util.ArrayList;
 
+/*******************************************************************************
+ * CLASS
+ * -----------------------------------------------------------------------------
+ * This class encapsulates methods to perform Rabin encryption on a given
+ * integer message. This asymmetric cypto system allows for private key
+ * generation as well as encrypt/decrypt functionality.
+ ******************************************************************************/
 public class RabinCrypto {
 
+	/***************************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------------
+	 * PRIME_LENGTH : Bit length of prime number to be generated
+	 **************************************************************************/
 	private static final int PRIME_LENGTH = 20;
 	
+	/***************************************************************************
+	 * METHOD generateKey
+	 * -------------------------------------------------------------------------
+	 * This method generates a key pair which consists of two random primes
+	 * p and q. Each prime will have the bit length provided in the above
+	 * constant declaration. Each prime will also follow the Rabin guidlines
+	 * of being congruent to 3 mod 4. 
+	 **************************************************************************/
 	public static RabinPrivateKeyPair generateKey() {
-		
 		BigInt p     = new BigInt(0);
 		BigInt q     = new BigInt(0);
 		BigInt three = new BigInt(3);
@@ -30,8 +54,13 @@ public class RabinCrypto {
 		return keyPair;
 	}
 	
+	/***************************************************************************
+	 * METHOD encrypt
+	 * -------------------------------------------------------------------------
+	 * This method will encrypt the given integer message with the public key
+	 * provided. The ciphertext will be returned.
+	 **************************************************************************/
 	public static BigInt encrypt(BigInt message, BigInt publicKey) {
-		
 		BigInt cipherText;
 		BigMod cipherMod = new BigMod(message, publicKey);
 		
@@ -42,8 +71,15 @@ public class RabinCrypto {
 		return cipherText;
 	}
 	
-	public static ArrayList<BigInt> decrypt(BigInt cipherText, RabinPrivateKeyPair keyPair) {
-		
+	/***************************************************************************
+	 * METHOD decrypt
+	 * -------------------------------------------------------------------------
+	 * This method will decrypt an encrypted integer ciphertext with the given
+	 * private key pair using Rabin theory. The four square roots of the 
+	 * ciphertext will be returned, one of which is the plain text message.
+	 **************************************************************************/
+	public static ArrayList<BigInt> decrypt(BigInt cipherText,
+											RabinPrivateKeyPair keyPair) {
 		BigInt p;
 		BigInt q;
 		BigInt n;
@@ -104,6 +140,12 @@ public class RabinCrypto {
 		return rootsModN;
 	}
 	
+	/***************************************************************************
+	 * METHOD euclidX
+	 * -------------------------------------------------------------------------
+	 * This method will perform the extended Euclidean algorithm in order to
+	 * find coefficients a & b for the diophantine equation ax + by = gcd(x,y).
+	 **************************************************************************/
 	public static BigIntPair euclidX(BigInt first, BigInt second) {
 		int sign = 1;
 		BigInt[] x  = new BigInt[2];
@@ -150,7 +192,6 @@ public class RabinCrypto {
 	}
 	
 	public static void main(String[] args) {
-		
 		BigInt message = new BigInt(1337);
 		RabinPrivateKeyPair privateKey = RabinCrypto.generateKey();
 		BigInt publicKey = privateKey.getP().multiply(privateKey.getQ());
